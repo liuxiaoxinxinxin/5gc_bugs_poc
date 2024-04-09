@@ -1,0 +1,24 @@
+Open5gs v2.6.6
+This problem can be trigerred in the following scenarios.
+
+Run NFs(NRF/SCP/SMF/UPF/AUSF/UDM/PCF/BSF/NSSF/UDR) except AMF.
+Run AMF
+Run gNB/UE and try to register successfully
+STOP SMF
+AMF Crashed
+
+AMF log：
+04/09 11:20:42.660: [core] FATAL: ogs_fsm_tran: Assertion `tmp' failed. (../lib/core/ogs-fsm.c:106)
+04/09 11:20:42.660: [core] FATAL: backtrace() returned 11 addresses (../lib/core/ogs-abort.c:37)
+/home/lxy/open5gs-main/install/lib/x86_64-linux-gnu/libogscore.so.2(ogs_abort+0x143) [0x7f83649391f3]
+/home/lxy/open5gs-main/install/lib/x86_64-linux-gnu/libogscore.so.2(ogs_fsm_tran+0x1de) [0x7f836498d0ce]
+/home/lxy/open5gs-main/install/lib/x86_64-linux-gnu/libogssbi.so.2(ogs_sbi_nf_fsm_tran+0x2db) [0x7f8363a3ac2b]
+/home/lxy/open5gs-main/install/lib/x86_64-linux-gnu/libogssbi.so.2(ogs_nnrf_nfm_handle_nf_status_notify+0x2977) [0x7f8363a2be97]
+/home/lxy/open5gs-main/install/bin/open5gs-amfd() [0x5590bb]
+/home/lxy/open5gs-main/install/lib/x86_64-linux-gnu/libogscore.so.2(ogs_fsm_dispatch+0x213) [0x7f836498d783]
+/home/lxy/open5gs-main/install/bin/open5gs-amfd() [0x4d13de]
+/home/lxy/open5gs-main/install/lib/x86_64-linux-gnu/libogscore.so.2(+0x3f51f) [0x7f836495751f]
+/lib/x86_64-linux-gnu/libpthread.so.0(+0x8609) [0x7f8362036609]
+/lib/x86_64-linux-gnu/libc.so.6(clone+0x43) [0x7f8361ddf353]
+
+The bug has been fixed in https://github.com/open5gs/open5gs/pull/2722
