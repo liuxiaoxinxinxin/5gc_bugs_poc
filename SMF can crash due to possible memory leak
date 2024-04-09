@@ -1,0 +1,35 @@
+Open5gs v2.7.0
+SMF crashes when multiple UE attachment attempts fail due to possible memory leak.
+
+Please set up the environment following the instructions at https://github.com/s5uishida/open5gs_5gc_ueransim_sample_config, we use just one UE and one UPF.
+
+#!/bin/bash
+./open5gs/install/bin/open5gs-amfd &
+ssh user@xxx.xxx.xxx.xxx /UERANSIM/build/runGnb.sh &
+ssh user@xxx.xxx.xxx.xxx /UERANSIM/build/runUE.sh &
+sleep 1.5
+pkill open5gs-amfd
+ssh user@xxx.xxx.xxx.xxx pkill nr-gnb
+ssh user@xxx.xxx.xxx.xxx pkill nr-ue
+
+SMF log：
+03/29 16:25:03.062: [sbi] INFO: [AMF] (NRF-notify) NF Profile updated [d72e3776-eda5-41ee-8e08-89c10d90c980:1] (../lib/sbi/nnrf-handler.c:1043)
+03/29 16:25:03.608: [smf] WARNING: OLD Session Will Release [SUPI:imsi-001010000000000,PDU Session identity:1] (../src/smf/context.c:1507)
+03/29 16:25:03.608: [smf] INFO: Removed Session: UE IMSI:[imsi-001010000000000] DNN:[internet:1] IPv4:[10.45.0.61] IPv6:[] (../src/smf/context.c:1677)
+03/29 16:25:03.608: [smf] INFO: [Removed] Number of SMF-Sessions is now 0 (../src/smf/context.c:3098)
+03/29 16:25:03.608: [smf] INFO: [Added] Number of SMF-Sessions is now 1 (../src/smf/context.c:3090)
+03/29 16:25:03.611: [sbi] WARNING: [UDM] (SCP-discover) NF has already been added [e21bd0b4-eda3-41ee-b0a3-579b3facdebb:1] (../lib/sbi/path.c:216)
+03/29 16:25:03.615: [sbi] WARNING: [PCF] (SCP-discover) NF has already been added [e21eeb78-eda3-41ee-ae92-e370f70e741e:1] (../lib/sbi/path.c:216)
+03/29 16:25:03.615: [smf] INFO: UE SUPI[imsi-001010000000000] DNN[internet] IPv4[10.45.0.62] IPv6[] (../src/smf/npcf-handler.c:542)
+03/29 16:25:03.623: [sbi] WARNING: [UDM] (SCP-discover) NF has already been added [e21bd0b4-eda3-41ee-b0a3-579b3facdebb:2] (../lib/sbi/path.c:216)
+03/29 16:25:04.261: [sbi] WARNING: [AMF] (NRF-notify) NF was referenced in other contexts [d72e3776-eda5-41ee-8e08-89c10d90c980:2] (../lib/sbi/nnrf-handler.c:1064)
+03/29 16:25:04.948: [sbi] FATAL: ogs_sbi_nf_instance_add: Assertion `nf_instance' failed. (../lib/sbi/context.c:1085)
+03/29 16:25:04.949: [core] FATAL: backtrace() returned 9 addresses (../lib/core/ogs-abort.c:37)
+/home/lxy/Desktop/open5gs/install/lib/x86_64-linux-gnu/libogssbi.so.2(ogs_sbi_nf_instance_add+0x14c) [0x7fb613c736c2]
+/home/lxy/Desktop/open5gs/install/lib/x86_64-linux-gnu/libogssbi.so.2(ogs_nnrf_nfm_handle_nf_status_notify+0xa8f) [0x7fb613c883d5]
+./install/bin/open5gs-smfd(+0x26345) [0x55d9f6995345]
+/home/lxy/Desktop/open5gs/install/lib/x86_64-linux-gnu/libogscore.so.2(ogs_fsm_dispatch+0x113) [0x7fb613cc9402]
+./install/bin/open5gs-smfd(+0x103b3) [0x55d9f697f3b3]
+/home/lxy/Desktop/open5gs/install/lib/x86_64-linux-gnu/libogscore.so.2(+0x11754) [0x7fb613cba754]
+/lib/x86_64-linux-gnu/libpthread.so.0(+0x8609) [0x7fb612d74609]
+/lib/x86_64-linux-gnu/libc.so.6(clone+0x43) [0x7fb612c99353]
