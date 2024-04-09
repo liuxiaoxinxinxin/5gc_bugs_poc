@@ -1,0 +1,13 @@
+several buffer-overflow found in open5gs v2.6.4
+
+Possible dynamic-stack-buffer-overflow in /lib/core/abts.c
+https://github.com/open5gs/open5gs/issues/2577
+
+Possible dynamic-stack-buffer-overflow in /src/main.c
+https://github.com/open5gs/open5gs/issues/2578
+
+Possible heap-buffer-overflow in /lib/pfcp/context.c
+https://github.com/open5gs/open5gs/issues/2585
+
+Possible stack-buffer-overflow in /lib/crypt/zuc.c
+https://github.com/open5gs/open5gs/issues/2587
