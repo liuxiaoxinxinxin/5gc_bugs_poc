@@ -1,0 +1,1 @@
+When a malformed NGAP packet is sent from the gNB to the AMF, the gNB crashes due to the SCTP connection being terminated.
