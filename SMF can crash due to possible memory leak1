@@ -1,4 +1,4 @@
-# Open5gs - A memory leak in PFCP protocol processing crashes SMF causing DoS
+# Open5gs - A memory leak in  crashes SMF causing DoS
 Recently, we discovered a logic vulnerability that may cause Open5gs SMF to crash during a code audit of Open5gs Ver2.4.11. 
 The specific causes of the vulnerability are as follows:
 
