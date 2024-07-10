@@ -1,0 +1,9 @@
+Wrong security header type for PDU Session Establishment Request
+
+OAI5G v2.0.0
+The PDU session establishment request is using the wrong security header type.
+The current used header is : "Integrity protected and ciphered with new 5G NAS security context". However, according to TS 24.501, Table 9.3.1, this header can only be used by the "Security mode complete" procedure.
+Hence, the new security header type shall be "Integrity protected and ciphered", which will use the security context generated during the "Security mode complete".
+
+This problem has been first discovered by Alexis Falempin and confirmed in:
+https://gitlab.eurecom.fr/oai/openairinterface5g/-/issues/715
